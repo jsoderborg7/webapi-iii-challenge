@@ -17,7 +17,7 @@ router.post('/', validateUser, (req, res) => {
 router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
   Posts.insert(req.body)
     .then(post =>{
-      res.status(201).json(post)
+      res.status(201).json({postOfTheDay: process.env.POTD, post})
     })
     .catch(err =>{
       res.status(500).json({error: "There was a problem saving this post"})
@@ -48,7 +48,7 @@ router.get('/:id', validateUserId, (req, res) => {
 router.get('/:id/posts', validateUserId, (req, res) => {
   Users.getUserPosts(req.params.id)
     .then(post =>{
-      res.status(200).json(post)
+      res.status(200).json({postOfTheDay: process.env.POTD, post})
     })
     .catch(err =>{
       res.status(500).json({message: "User's posts could not be retrieved"})
